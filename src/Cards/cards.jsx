@@ -40,7 +40,7 @@ function Cards(){
 	};
 
 	return(
-		<div className="flex flex-col">
+		<div className="flex flex-col ">
 			<div className="w-full mb-3 bg-cyan-700 p-1">
 				<select className="w-full outline-none rounded-sm p-1" value={selectedOption} onChange={(e)=>setSelectedOption(e.target.value)}>
 					<option value="/">Todas</option>
@@ -56,7 +56,7 @@ function Cards(){
 				<div className={`carta ${girada ? 'girada' : ''}`} onClick={handleClick} >
 
 					<div className="carta-frente text-center bg-cyan-900">
-						<h2 className="text-3xl">{selectedItem.portugues}</h2>
+						<h2 className="text-2xl">{selectedItem.portugues}</h2>
 					</div>
 
 					<div className="carta-verso flex flex-col bg-cyan-700">
@@ -68,7 +68,7 @@ function Cards(){
 				</div>
 
 			)}
-				<button onClick={handleDraw} className=" bg-cyan-900 mt-3 p-3 rounded-sm font-bold text-white">Nova Carta</button>
+				<button onClick={handleDraw} className=" bg-cyan-900 mt-3 p-3 rounded-sm font-bold text-white mb-10">Nova Carta</button>
 		</div>
 	)
 }
