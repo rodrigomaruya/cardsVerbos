@@ -36,3 +36,7 @@
 .carta.girada .carta-verso {
   transform: rotateY(0deg);
 }
+
+.desabilitar{
+  opacity: .5;
+}

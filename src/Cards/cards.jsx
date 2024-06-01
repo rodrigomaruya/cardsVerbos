@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react"
+import { useState,useEffect} from "react"
 import api from "../api/api"
 import './style.css'
 
@@ -7,19 +7,27 @@ function Cards(){
 	const [girada,setGirada]=useState(false);
 	const [novoGet,setNovoGet]=useState(true);
 	const [virar,setVirar]=useState(false);
+	const [questionIsSelected, setQuestionIsSelected] = useState(true);
 	const [getVerbo,setGetVerbo]=useState([]);
-	const [selectedItem, setSelectedItem] = useState([]);
+	const [selectedItem, setSelectedItem] = useState({portugues:'Clique no botão começar!'});
 	const [selectedOption, setSelectedOption] = useState('/');
 	
 
+	const acabou=[
+		{
+			portugues:'Parabéns você decorou todas as cartas!!'
+		}
+	];
 
+	
 	useEffect(()=>{
 		const get=async()=>{
 			try{
 				const response= await api.get(`${selectedOption}`)
 				setGetVerbo(response.data)
 				setNovoGet(true)
-
+				setVirar(false)
+				setGirada(false)
 			}catch(erro){
 				console.log('erro no get')
 			}
@@ -34,13 +42,15 @@ function Cards(){
 			const randomIndex = Math.floor(Math.random() * getVerbo.length);
 			// Seleciona o item correspondente ao índice sorteado
 			setSelectedItem(getVerbo[randomIndex]);
+			setQuestionIsSelected(false)
 			return
 		}
+	
 		window.location.reload();
 		setNovoGet(true);
 	};
 
-	const dificl = () => {
+	const dificil = () => {
 		setNovoGet(false)
 		const randomIndex = Math.floor(Math.random() * getVerbo.length);
 		setSelectedItem(getVerbo[randomIndex]);
@@ -48,21 +58,35 @@ function Cards(){
 		setVirar(false)
 
 	};
-	const dificil = () => {
+	
+	const virarCarta = () => {
 		setNovoGet(false)
 		setGirada(true);
 		setVirar(true)
-
 	};
 
-	const facil=(id)=>{
-		setNovoGet(false)
-		const deletar=getVerbo.filter(verbo=>verbo._id != id)
-		setGetVerbo(deletar)
+	const facil=async(id)=>{
+
+		if(getVerbo.length == 1){
+			
+			const deletar= getVerbo.filter(verbo=>verbo._id != id)
+			await setGetVerbo(deletar)
+			setSelectedItem(acabou[0])
+			setGirada(false)
+			setVirar(false)
+			setQuestionIsSelected(true)
+			return
+
+		}
+		const deletar= getVerbo.filter(verbo=>verbo._id != id)
+		await setGetVerbo(deletar)
 		const randomIndex = Math.floor(Math.random() * getVerbo.length);
 		setSelectedItem(getVerbo[randomIndex]);
+		setNovoGet(false)
 		setGirada(false)
 		setVirar(false)
+
+
 	};
 	
 	return(
@@ -82,9 +106,8 @@ function Cards(){
 			<button className="bg-cyan-900 mt-3 p-3 rounded-md font-bold text-white mb-10 flex-1" onClick={handleDraw}>{novoGet?'Começar':'Reiniciar'}</button>
 			<h2 className="text-center font-bold mb-2">Total cartas: {getVerbo.length}</h2>
 
-			{selectedItem &&(
 				<div className={`carta ${girada ? 'girada' : ''}`}  >
-
+			
 					<div className="carta-frente text-center bg-cyan-900">
 						<h2 className="text-2xl">{selectedItem.portugues}</h2>
 					</div>
@@ -97,11 +120,10 @@ function Cards(){
 
 				</div>
 
-			)}
 			{
 				!virar&&(
 					<div className="flex gap-1">
-						<button onClick={dificil} className=" bg-cyan-900 mt-3 p-3 rounded-md font-bold text-white mb-10 flex-1">Virar</button>
+						<button onClick={virarCarta} className={`${questionIsSelected?'desabilitar':''}  bg-cyan-900 mt-3 p-3 rounded-md font-bold text-white mb-10 flex-1`} disabled={questionIsSelected}>Virar</button>
 					</div>
 					
 				)
@@ -109,7 +131,7 @@ function Cards(){
 			{virar &&(
 				<div className="flex gap-1">
 					<button onClick={()=>facil(selectedItem._id)} className=" bg-cyan-900 mt-3 p-3 rounded-md font-bold text-white mb-10 flex-1">Fácil</button>
-					<button onClick={dificl} className=" bg-cyan-900 mt-3 p-3 rounded-md font-bold text-white mb-10 flex-1">Difícil</button>
+					<button onClick={dificil} className=" bg-cyan-900 mt-3 p-3 rounded-md font-bold text-white mb-10 flex-1">Difícil</button>
 				</div>
 
 			)}
