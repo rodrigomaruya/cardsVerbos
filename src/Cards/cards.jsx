@@ -1,14 +1,18 @@
 import { useState,useEffect} from "react"
 import api from "../api/api"
 import './style.css'
+import Loading from "../modal/loading/loading";
 
 function Cards(){
 
 	const [girada,setGirada]=useState(false);
 	const [novoGet,setNovoGet]=useState(true);
+	const [loading,setLoading]=useState(true);
 	const [virar,setVirar]=useState(false);
 	const [questionIsSelected, setQuestionIsSelected] = useState(true);
 	const [getVerbo,setGetVerbo]=useState([]);
+	
+	const [getVerboReiniciar,setGetVerboReiniciar]=useState([]);
 	const [selectedItem, setSelectedItem] = useState({portugues:'Clique no botão começar!'});
 	const [selectedOption, setSelectedOption] = useState('/');
 	
@@ -25,9 +29,11 @@ function Cards(){
 			try{
 				const response= await api.get(`${selectedOption}`)
 				setGetVerbo(response.data)
+				setGetVerboReiniciar(response.data)
 				setNovoGet(true)
 				setVirar(false)
 				setGirada(false)
+				setLoading(false)
 			}catch(erro){
 				console.log('erro no get')
 			}
@@ -46,7 +52,7 @@ function Cards(){
 			return
 		}
 	
-		window.location.reload();
+		setGetVerbo(getVerboReiniciar)
 		setNovoGet(true);
 	};
 
@@ -66,27 +72,28 @@ function Cards(){
 	};
 
 	const facil=async(id)=>{
-
+		const deletar=getVerbo.filter(verbo=>verbo._id != id)
+		const randomIndex = Math.floor(Math.random() * deletar.length);
+		
+		setGetVerbo(deletar)
+		setSelectedItem(deletar[randomIndex])
+		setNovoGet(false)
+		setGirada(false)
+		setVirar(false)
+		setGetVerbo(deletar)
+	
 		if(getVerbo.length == 1){
 			
-			const deletar= getVerbo.filter(verbo=>verbo._id != id)
-			await setGetVerbo(deletar)
+			const deletar=  getVerbo.filter(verbo=>verbo._id != id)
+			setGetVerbo(deletar)
 			setSelectedItem(acabou[0])
 			setGirada(false)
 			setVirar(false)
 			setQuestionIsSelected(true)
 			return
-
+			
 		}
-		const deletar= getVerbo.filter(verbo=>verbo._id != id)
-		await setGetVerbo(deletar)
-		const randomIndex = Math.floor(Math.random() * getVerbo.length);
-		setSelectedItem(getVerbo[randomIndex]);
-		setNovoGet(false)
-		setGirada(false)
-		setVirar(false)
-
-
+		
 	};
 	
 	return(
@@ -103,7 +110,7 @@ function Cards(){
 				</select>
 			</div>
 
-			<button className="bg-cyan-900 mt-3 p-3 rounded-md font-bold text-white mb-10 flex-1" onClick={handleDraw}>{novoGet?'Começar':'Reiniciar'}</button>
+			<button className="bg-cyan-900 p-3 rounded-md font-bold text-white mb-3 flex-1" onClick={handleDraw}>{novoGet?'Começar':'Reiniciar'}</button>
 			<h2 className="text-center font-bold mb-2">Total cartas: {getVerbo.length}</h2>
 
 				<div className={`carta ${girada ? 'girada' : ''}`}  >
@@ -123,19 +130,21 @@ function Cards(){
 			{
 				!virar&&(
 					<div className="flex gap-1">
-						<button onClick={virarCarta} className={`${questionIsSelected?'desabilitar':''}  bg-cyan-900 mt-3 p-3 rounded-md font-bold text-white mb-10 flex-1`} disabled={questionIsSelected}>Virar</button>
+						<button onClick={virarCarta} className={`${questionIsSelected?'desabilitar':''}  bg-cyan-900 mt-2 p-3 rounded-md font-bold text-white mb-5 flex-1`} disabled={questionIsSelected}>Virar</button>
 					</div>
 					
 				)
 			}
 			{virar &&(
 				<div className="flex gap-1">
-					<button onClick={()=>facil(selectedItem._id)} className=" bg-cyan-900 mt-3 p-3 rounded-md font-bold text-white mb-10 flex-1">Fácil</button>
-					<button onClick={dificil} className=" bg-cyan-900 mt-3 p-3 rounded-md font-bold text-white mb-10 flex-1">Difícil</button>
+					<button onClick={()=>facil(selectedItem._id)} className=" bg-cyan-900 mt-2 p-3 rounded-md font-bold text-white mb-5 flex-1">Fácil</button>
+					<button onClick={dificil} className=" bg-cyan-900 mt-2 p-3 rounded-md font-bold text-white mb-5 flex-1">Difícil</button>
 				</div>
 
 			)}
-
+			{loading && (
+				<Loading/>
+			)}
 		</div>
 	)
 }
