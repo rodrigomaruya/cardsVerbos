@@ -16,10 +16,16 @@ function Cards(){
 	const [selectedItem, setSelectedItem] = useState({portugues:'Clique no botão começar!'});
 	const [selectedOption, setSelectedOption] = useState('/');
 	
+	
 
 	const acabou=[
 		{
 			portugues:'Parabéns você decorou todas as cartas!!'
+		}
+	];
+	const comecar=[
+		{
+			portugues:'Clique no botão começar!'
 		}
 	];
 
@@ -49,10 +55,15 @@ function Cards(){
 			// Seleciona o item correspondente ao índice sorteado
 			setSelectedItem(getVerbo[randomIndex]);
 			setQuestionIsSelected(false)
+			setGirada(false)
 			return
 		}
 	
 		setGetVerbo(getVerboReiniciar)
+		setSelectedItem(comecar[0])
+		setGirada(false)
+		setVirar(false)
+		setQuestionIsSelected(true)
 		setNovoGet(true);
 	};
 
