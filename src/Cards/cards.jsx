@@ -11,11 +11,9 @@ function Cards(){
 	const [virar,setVirar]=useState(false);
 	const [questionIsSelected, setQuestionIsSelected] = useState(true);
 	const [getVerbo,setGetVerbo]=useState([]);
-	
 	const [getVerboReiniciar,setGetVerboReiniciar]=useState([]);
 	const [selectedItem, setSelectedItem] = useState({portugues:'Clique no botão começar!'});
 	const [selectedOption, setSelectedOption] = useState('/');
-	
 	
 
 	const acabou=[
