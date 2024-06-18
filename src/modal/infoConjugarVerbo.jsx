@@ -2,7 +2,7 @@
 function InfoConjugarVerbo(){
 
 	return(
-		<div className="w-full max-w-5xl  flex justify-center absolute bg-black/10  border">
+		<div className="w-full max-w-5xl  flex justify-center absolute bg-black/10  border top-20">
 			<div className="flex flex-col items-center bg-white max-w-sm w-full">
 				<h1 className="font-bold mb-3 text-red-500">Grupos de Verbos</h1>
 

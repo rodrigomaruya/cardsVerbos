@@ -46,13 +46,6 @@ function Cards(){
 	},[selectedOption]);
 	
 
-	useEffect(() => {
-    // Recarrega os anúncios do AdSense
-    if (window.adsbygoogle) {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    }
-  }, []);
-
 	const handleDraw = () => {
 		if(novoGet){
 			// Sorteia um índice aleatório
@@ -114,12 +107,6 @@ function Cards(){
 	
 	return(
 		<div className="flex flex-col ">
-			<ins className="adsbygoogle"
-				style={{ display: 'block' }}
-				data-ad-client="ca-pub-5416300212383070"
-				data-ad-format="auto">
-
-			</ins>
 
 			<div className="w-full mb-3 bg-cyan-700 p-1">
 				<select className="w-full outline-none rounded-sm p-1" value={selectedOption} onChange={(e)=>setSelectedOption(e.target.value)}>
@@ -152,15 +139,15 @@ function Cards(){
 			{
 				!virar&&(
 					<div className="flex gap-1">
-						<button onClick={virarCarta} className={`${questionIsSelected?'desabilitar':''}  bg-cyan-900 mt-2 p-3 rounded-md font-bold text-white mb-5 flex-1`} disabled={questionIsSelected}>Virar</button>
+						<button onClick={virarCarta} className={`${questionIsSelected?'desabilitar':''}  bg-cyan-900 mt-4 py-4 rounded-md font-bold text-white mb-5 flex-1`} disabled={questionIsSelected}>Virar</button>
 					</div>
 					
 				)
 			}
 			{virar &&(
 				<div className="flex gap-1">
-					<button onClick={()=>facil(selectedItem._id)} className=" bg-cyan-900 mt-2 p-3 rounded-md font-bold text-white mb-5 flex-1">Fácil</button>
-					<button onClick={dificil} className=" bg-cyan-900 mt-2 p-3 rounded-md font-bold text-white mb-5 flex-1">Difícil</button>
+					<button onClick={()=>facil(selectedItem._id)} className=" bg-cyan-900 mt-4 py-4 rounded-md font-bold text-white mb-5 flex-1">Fácil</button>
+					<button onClick={dificil} className=" bg-cyan-900 mt-4 py-4 rounded-md font-bold text-white mb-5 flex-1">Difícil</button>
 				</div>
 
 			)}
