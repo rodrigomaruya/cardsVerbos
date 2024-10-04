@@ -1,8 +1,13 @@
-# React + Vite
+# cardsVerbos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CardsVerbos é um aplicativo para ajudar na memorização de verbos e adjetivos em japonês, inspirado no aplicativo ANKI, este projeto inclui uma API backend com MongoDB para armazenar os verbos e adjetivos, além de uma pagina separada para cadastro de novas palavras.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Exibição dinâmica de verbos e adjetivos em forma de cards utilizando React para gerenciar o estado e Tailwind para estilização rápida e responsiva.
+
+## Tecnologia
+
+- React js
+- Tailwind CSS
+- react icons

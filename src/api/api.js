@@ -1,9 +1,7 @@
-import axios from 'axios'
+import axios from "axios";
 
+const api = axios.create({
+  baseURL: "https://api-verbos.vercel.app",
+});
 
-	const api=axios.create({
-		baseURL:'https://api-verbos.vercel.app'
-	})
-
-
-export default api
+export default api;
